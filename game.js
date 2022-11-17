@@ -17,42 +17,36 @@
 
     return function start() {
       const computer = FIGURES[getRandomIntInclusive(0, 2)];
-      console.log(computer);
       let humanUser = ' ';
       humanUser = prompt('Напишите Ваш ответ: камень, ножницы, бумага');
 
-      if (computer === 'камень' && humanUser === 'бумага') {
-        result.player++;
+      const figure = ['камень', 'ножницы', 'бумага'];
+
+      const incorrect = FIGURES.some(item => (
+        item.includes(humanUser.toLowerCase())));
+      if (!incorrect) {
+        alert('Вводи правельно слово!');
+        return start();
+      }
+
+      if (humanUser === figure[0] && computer === figure[1] ||
+      humanUser === figure[1] && computer === figure[2] ||
+      humanUser === figure[2] && computer === figure[0]) {
+        result.player += 1;
         alert(`Вы выиграли! Computer: ${result.computer}.Вы: ${result.player}`);
       }
-      if (computer === 'камень' && humanUser === 'ножницы') {
-        result.computer++;
+
+      if (humanUser === computer) {
+        result.player += 1;
+        result.computer += 1;
+        alert(`Ничья! Computer: ${result.computer}.Вы: ${result.player}`);
+      } else {
+        result.computer += 1;
         alert(`Вы проиграли! Computer:
         ${result.computer}.Вы: ${result.player}`);
       }
-      if (computer === 'бумага' && humanUser === 'ножницы') {
-        result.player++;
-        alert(`Вы выиграли! Computer: ${result.computer}.Вы: ${result.player}`);
-      }
-      if (computer === 'бумага' && humanUser === 'камень') {
-        result.computer++;
-        alert(`Вы проиграли!Computer: ${result.computer}.Вы: ${result.player}`);
-      }
-      if (computer === 'ножницы' && humanUser === 'камень') {
-        result.player++;
-        alert(`Вы выиграли!Computer: ${result.computer}.Вы: ${result.player}`);
-      }
-      if (computer === 'ножницы' && humanUser === 'бумага') {
-        result.computer++;
-        alert(`Вы проиграли!Computer: ${result.computer}.Вы: ${result.player}`);
-      }
-      if (humanUser === computer) {
-        result.player++;
-        result.computer++;
-        alert(`Ничья! Computer: ${result.computer}.Вы: ${result.player}`);
-      }
 
-      const newGame = confirm('Еще?');
+      const newGame = confirm('Играем еще?');
       if (newGame) {
         start();
       } else {
